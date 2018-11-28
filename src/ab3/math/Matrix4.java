@@ -1,4 +1,4 @@
-package ab3;
+package ab3.math;
 
 //Alle Operationen ändern das Matrixobjekt selbst und geben das eigene Matrixobjekt zurück
 //Dadurch kann man Aufrufe verketten, z.B.
@@ -6,10 +6,6 @@ package ab3;
 public class Matrix4 {
 
 	private float[] values;
-
-	private Matrix4(float[] values) {
-	    this.values = values;
-    }
 
 	public Matrix4() {
 		values = new float[] {
@@ -20,11 +16,11 @@ public class Matrix4 {
         };
 	}
 
-	public Matrix4(Matrix4 copy) {
+    public Matrix4(Matrix4 copy) {
 		values = copy.values.clone();
 	}
 
-	public Matrix4(float near, float far) {
+    public Matrix4(float near, float far) {
 		values = new float[] {
 		        near, 0, 0, 0,
                 0, near, 0, 0,
@@ -33,7 +29,7 @@ public class Matrix4 {
         };
 	}
 
-	public Matrix4 multiply(Matrix4 other) {
+    public Matrix4 multiply(Matrix4 other) {
         float[] newValues = new float[16];
 
         newValues[0] = other.values[0] * values[0] + other.values[4] * values[1] + other.values[8] * values[2] + other.values[12] * values[3];
@@ -61,7 +57,7 @@ public class Matrix4 {
 		return this;
 	}
 
-	public Matrix4 translate(float x, float y, float z) {
+    public Matrix4 translate(float x, float y, float z) {
 		values[0] = values[0] + x * values[3];
         values[1] = values[1] + y * values[3];
         values[2] = values[2] + z * values[3];
@@ -81,27 +77,11 @@ public class Matrix4 {
 		return this;
 	}
 
-	public Matrix4 scale(float uniformFactor) {
-        values[0] *= uniformFactor;
-        values[1] *= uniformFactor;
-        values[2] *= uniformFactor;
-
-        values[4] *= uniformFactor;
-        values[5] *= uniformFactor;
-        values[6] *= uniformFactor;
-
-        values[8] *= uniformFactor;
-        values[9] *= uniformFactor;
-        values[10] *= uniformFactor;
-
-        values[12] *= uniformFactor;
-        values[13] *= uniformFactor;
-        values[14] *= uniformFactor;
-
-		return this;
+    public Matrix4 scale(float uniformFactor) {
+        return scale(uniformFactor, uniformFactor, uniformFactor);
 	}
 
-	public Matrix4 scale(float sx, float sy, float sz) {
+    public Matrix4 scale(float sx, float sy, float sz) {
         values[0] *= sx;
         values[1] *= sy;
         values[2] *= sz;
@@ -121,7 +101,7 @@ public class Matrix4 {
 		return this;
 	}
 
-	public Matrix4 rotateX(float angle) {
+    public Matrix4 rotateX(float angle) {
         double radAngle = Math.toRadians(angle);
 
         float[] newValues = new float[16];
@@ -151,7 +131,7 @@ public class Matrix4 {
 		return this;
 	}
 
-	public Matrix4 rotateY(float angle) {
+    public Matrix4 rotateY(float angle) {
 	    double radAngle = Math.toRadians(angle);
 
         float[] newValues = new float[16];
@@ -181,7 +161,7 @@ public class Matrix4 {
 		return this;
 	}
 
-	public Matrix4 rotateZ(float angle) {
+    public Matrix4 rotateZ(float angle) {
         double radAngle = Math.toRadians(angle);
 
         float[] newValues = new float[16];
@@ -211,7 +191,7 @@ public class Matrix4 {
 		return this;
 	}
 
-	public float[] getValuesAsArray() {
+    public float[] getValuesAsArray() {
 		return values;
 	}
 }
