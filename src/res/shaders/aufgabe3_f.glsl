@@ -16,10 +16,10 @@ out vec3 pixelColor;
 float ambientIntensity = 0.3;
 
 //Object attributes
-float ambientFactor = 0.5;
+float ambientFactor = 0.2;
 float diffuseFactor = 0.2;
-float specularFactor = 0.8;
-float specularDamper = 500;
+float specularFactor = 0.7;
+float specularDamper = 50;
 
 void main() {
     float factorSum = ambientFactor + diffuseFactor + specularFactor;
@@ -33,7 +33,7 @@ void main() {
 
     float lightAmbient = ambientIntensity * kAmbient;
     float lightDiffuse = lightIntensity * max(0.0, dot(unitToLightVector, normalVector)) * kDiffuse;
-    float lightSpecular = lightIntensity * pow(max(0.0, dot(unitReflectionVector, unitToCameraVector)), 5) * kSpecular;
+    float lightSpecular = lightIntensity * pow(max(0.0, dot(unitReflectionVector, unitToCameraVector)), specularDamper) * kSpecular;
 
     vec3 light = (lightAmbient + lightDiffuse + lightSpecular) * lightColor;
 

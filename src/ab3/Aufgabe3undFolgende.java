@@ -222,7 +222,7 @@ public class Aufgabe3undFolgende extends AbstractOpenGLBase {
         viewMatrix = new Matrix4().translate(0, 0, -2);
 
         //Light
-		Light light = new Light(new Vector3(2, 4, 1.5f), new Vector3(0.8f, 0.1f, 0.1f), 3);
+		Light light = new Light(new Vector3(2, 4, 1.5f), new Vector3(0.8f, 0.8f, 0.8f), 5);
 
 		int uniformLightPositionID = glGetUniformLocation(shaderProgram.getId(), "lightPosition");
 		int uniformLightColorID = glGetUniformLocation(shaderProgram.getId(), "lightColor");
