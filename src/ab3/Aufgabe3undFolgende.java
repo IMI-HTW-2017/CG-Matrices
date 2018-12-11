@@ -4,6 +4,7 @@ import ab3.math.Matrix4;
 import ab3.math.Vector3;
 import lenz.opengl.AbstractOpenGLBase;
 import lenz.opengl.ShaderProgram;
+import lenz.opengl.Texture;
 
 import static org.lwjgl.opengl.GL30.*;
 
@@ -144,6 +145,71 @@ public class Aufgabe3undFolgende extends AbstractOpenGLBase {
 		glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
 		glEnableVertexAttribArray(1);
 
+		//UV Stuff
+		vboID = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, vboID);
+
+		float[] uvs = new float[] {
+				//vorne
+				0, 1,
+				1, 1,
+				0, 0,
+
+				0, 0,
+				1, 1,
+				1, 0,
+
+				//hinten
+				1, 1,
+				1, 0,
+				0, 1,
+
+				1, 0,
+				0, 0,
+				0, 1,
+
+				//unten
+				0, 0,
+				1, 1,
+				1, 0,
+
+				0, 0,
+				0, 1,
+				1, 1,
+
+				//oben
+				0, 1,
+				1, 1,
+				1, 0,
+
+				0, 1,
+				1, 0,
+				0, 0,
+
+				//links
+				1, 0,
+				0, 0,
+				1, 1,
+
+				1, 1,
+				0, 0,
+				0, 1,
+
+				//rechts
+				0, 0,
+				0, 1,
+				1, 0,
+
+				0, 1,
+				1, 1,
+				1, 0
+		};
+
+		glBufferData(GL_ARRAY_BUFFER, uvs, GL_STATIC_DRAW);
+
+		glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
+		glEnableVertexAttribArray(2);
+
 		//z-Buffer und backface culling aktivieren
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
@@ -156,7 +222,7 @@ public class Aufgabe3undFolgende extends AbstractOpenGLBase {
         viewMatrix = new Matrix4().translate(0, 0, -2);
 
         //Light
-		Light light = new Light(new Vector3(2, 4, 1.5f), new Vector3(0.8f, 0.8f, 0.8f), 3);
+		Light light = new Light(new Vector3(2, 4, 1.5f), new Vector3(0.8f, 0.1f, 0.1f), 3);
 
 		int uniformLightPositionID = glGetUniformLocation(shaderProgram.getId(), "lightPosition");
 		int uniformLightColorID = glGetUniformLocation(shaderProgram.getId(), "lightColor");
@@ -164,6 +230,10 @@ public class Aufgabe3undFolgende extends AbstractOpenGLBase {
 		glUniform3fv(uniformLightPositionID, light.getPosition().getValues());
 		glUniform3fv(uniformLightColorID, light.getColor().getValues());
 		glUniform1f(uniformLightIntensityID, light.getIntensity());
+
+		//Textures
+		Texture cubeTexture = new Texture("metal.jpg");
+		glBindTexture(GL_TEXTURE_2D, cubeTexture.getId());
 	}
 
 	@Override
