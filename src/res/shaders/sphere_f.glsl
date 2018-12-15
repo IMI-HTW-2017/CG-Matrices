@@ -1,7 +1,7 @@
 #version 400
 
+in vec3 vertexColor;
 in vec3 normalVector;
-in vec2 uvCoord;
 in vec4 pixelPosition;
 
 uniform vec3 lightPosition;
@@ -36,7 +36,5 @@ void main() {
 
     vec3 light = (lightAmbient + lightDiffuse + lightSpecular) * lightColor;
 
-    vec3 textureColor = vec3(texture(textureSampler, uvCoord));
-
-    pixelColor = (textureColor + light) / 2;
+    pixelColor = (vertexColor);// + light) / 2;
 }
