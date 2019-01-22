@@ -24,7 +24,19 @@ public class Texture {
 
 	public Texture(String resourceName, int numberOfMipMapLevels, boolean autoGenerateMipMaps) {
 		try {
-			createTextureFromImage(ImageIO.read(createInputStreamFromResourceName(resourceName)));
+			createTextureFromImage(ImageIO.read(createInputStreamFromResourceName(resourceName)), GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, numberOfMipMapLevels - 1);
+			if (autoGenerateMipMaps) {
+				glGenerateMipmap(GL_TEXTURE_2D);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to read texture from stream", e);
+		}
+	}
+
+	public Texture(String resourceName, int numberOfMipMapLevels, boolean autoGenerateMipMaps, int magFilterType, int minFilterType) {
+		try {
+			createTextureFromImage(ImageIO.read(createInputStreamFromResourceName(resourceName)), magFilterType, minFilterType);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, numberOfMipMapLevels - 1);
 			if (autoGenerateMipMaps) {
 				glGenerateMipmap(GL_TEXTURE_2D);
@@ -41,7 +53,7 @@ public class Texture {
 		return getClass().getResourceAsStream(resourceName);
 	}
 
-	private void createTextureFromImage(BufferedImage image) {
+	private void createTextureFromImage(BufferedImage image, int magFilterType, int minFilterType) {
 		int width = image.getWidth();
 		int height = image.getHeight();
 		boolean hasAlpha = image.getColorModel().hasAlpha();
@@ -64,8 +76,8 @@ public class Texture {
 		id = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, id);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilterType);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilterType);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, hasAlpha ? GL_RGBA : GL_RGB, width, height, 0, hasAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, buffer);
 	}

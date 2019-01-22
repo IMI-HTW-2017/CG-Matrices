@@ -21,16 +21,6 @@ public class ShaderProgram {
 		}
 	}
 
-	public ShaderProgram(String vertexShaderSource, String fragmentResourceName) { // for assignment 1
-		id = glCreateProgram();
-		compileAndAttach("'vertex shader'", GL_VERTEX_SHADER, vertexShaderSource);
-		loadSourceAndCompileAndAttach(fragmentResourceName, GL_FRAGMENT_SHADER);
-		glLinkProgram(id);
-		if (glGetProgrami(id, GL_LINK_STATUS) == GL_FALSE) {
-			throw new RuntimeException(glGetProgramInfoLog(id, glGetProgrami(id, GL_INFO_LOG_LENGTH)));
-		}
-	}
-
 	public int getId() {
 		return id;
 	}

@@ -1,6 +1,6 @@
 #version 400
 
-in vec3 vertexColor;
+in vec3 vertexID;
 in vec3 normalVector;
 in vec4 pixelPosition;
 
@@ -12,15 +12,18 @@ uniform sampler2D textureSampler;
 
 out vec3 pixelColor;
 
-float ambientIntensity = 0.3;
+float ambientIntensity = 0.1;
 
 //Object attributes
-float ambientFactor = 0.2;
+float ambientFactor = 0.1;
 float diffuseFactor = 0.2;
 float specularFactor = 0.7;
 float specularDamper = 50;
 
 void main() {
+    float gray = sin(vertexID.x * 0.2) * 0.5 + 0.5;
+    vec3 vertexColor = vec3(gray, gray, gray);
+
     float factorSum = ambientFactor + diffuseFactor + specularFactor;
     float kAmbient = ambientFactor / factorSum;
     float kDiffuse = diffuseFactor / factorSum;
@@ -36,5 +39,5 @@ void main() {
 
     vec3 light = (lightAmbient + lightDiffuse + lightSpecular) * lightColor;
 
-    pixelColor = (vertexColor);// + light) / 2;
+    pixelColor = (vertexColor + light) / 2;
 }

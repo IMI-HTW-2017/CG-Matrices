@@ -1,6 +1,5 @@
 package ab3.objects;
 
-import ab3.math.Utilities;
 import ab3.math.Vector3;
 
 public class Cube extends Object {
@@ -68,7 +67,7 @@ public class Cube extends Object {
                 0.5F, 0.5F, -0.5F
         };
 
-        normals = Utilities.calculateObjectNormals(vertices);
+        normals = calculateObjectNormals(vertices);
 
         uvs = new float[] {
                 //front

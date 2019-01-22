@@ -15,6 +15,8 @@ public abstract class AbstractOpenGLBase {
 		System.setProperty("java.awt.headless", "true");
 	}
 
+	protected long window;
+
 	protected abstract void init();
 
 	protected abstract void update();
@@ -26,7 +28,7 @@ public abstract class AbstractOpenGLBase {
 	public void start(String title, int width, int height) {
 		System.out.println("LWJGL " + Version.getVersion());
 
-		long window = openWindow(title, width, height);
+		window = openWindow(title, width, height);
 		GL.createCapabilities(); // internally connects OpenGL and GLFW's current context
 		System.out.println("OpenGL " + glGetString(GL_VERSION));
 

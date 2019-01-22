@@ -9,23 +9,18 @@ uniform mat4 projectionMatrix;
 
 out vec3 normalVector;
 out vec4 pixelPosition;
-out vec3 vertexColor;
+out vec3 vertexID;
 
 void main() {
-    /***************************/
-    /* Einfarbige Seiten Tetra */
-    /***************************/
-    if (gl_VertexID < 3) {
-        vertexColor = vec3(1.0, 0.0, 0.0);
-    } else if (gl_VertexID < 6) {
-        vertexColor = vec3(0.0, 1.0, 0.0);
-    } else if (gl_VertexID < 9) {
-        vertexColor = vec3(0.0, 0.0, 1.0);
-    } else if (gl_VertexID < 12) {
-        vertexColor = vec3(1.0, 0.0, 1.0);
+    /*if (gl_VertexID % 3 == 0) {
+        vertexColor = vec3(1.0, 0, 0);
+    } else if (gl_VertexID % 3 == 1) {
+        vertexColor = vec3(0, 1.0, 0);
     } else {
-        vertexColor = vec3(0.0, 1.0, 1.0);
-    }
+        vertexColor = vec3(0, 0, 1.0);
+    }*/
+
+    vertexID = vec3(gl_VertexID, 0, 0);
 
     mat4 transformationMatrix = viewMatrix * modelMatrix;
 
